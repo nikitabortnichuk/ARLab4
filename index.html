@@ -4,7 +4,7 @@
     <title>Richmond's Minimal Surface</title>
     <meta charset=utf-8>
     <meta name=viewport content=width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0>
-    <script src=http://mrdoob.github.io/three.js/build/three.min.js></script>
+    <script src=https://mrdoob.github.io/three.js/build/three.min.js></script>
     <script src=https://mrdoob.github.io/three.js/examples/js/libs/stats.min.js ></script>
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script>
@@ -89,10 +89,10 @@
         const l = 2 / (k + 1 - k * Math.sin(2 * Math.PI * v) * Math.sin(2 * Math.PI * v) * Math.cos(2 * Math.PI * u) * Math.cos(2 * Math.PI * u));
         const r = (l * Math.sqrt((k + 1) * (1 + k * Math.sin(2 * Math.PI * u) * Math.sin(2 * Math.PI * u))) * Math.sin(2 * Math.PI * v)) / Math.sqrt(k);
         
-        const x = r * Math.cos(2 * Math.PI * p);
-        const y = r * Math.sin(2 * Math.PI * p);
-        const z = (Math.log(Math.tan(2 * Math.PI * v / 2)) + l * (k + 1) * Math.cos(2 * Math.PI * v)) / Math.sqrt(k);
-        target.set(x * w, z * w, y * w);
+        target.x = r * Math.cos(2 * Math.PI * p);
+        target.y = r * Math.sin(2 * Math.PI * p);
+        target.z = (Math.log(Math.tan(2 * Math.PI * v / 2)) + l * (k + 1) * Math.cos(2 * Math.PI * v)) / Math.sqrt(k);
+        return target;
     }    
 
     function animate() {
