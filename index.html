@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang=en>
+<head>
+    <title>Richmond's Minimal Surface</title>
+    <meta charset=utf-8>
+    <meta name=viewport content=width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0>
+    <script src=http://mrdoob.github.io/three.js/build/three.min.js></script>
+    <script src=https://mrdoob.github.io/three.js/examples/js/libs/stats.min.js ></script>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script>
+
+</head>
+<body>
+<script>
+
+
+    var camera, scene;
+
+    start();
+
+    function start() {
+        init(index);
+        animate();
+    }
+
+    function init(index) {
+        renderer = new THREE.WebGLRenderer({alpha: 1, antialias: true, clearColor: 0xffffff});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(120, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 2);
+
+        geometry = new THREE.ParametricGeometry(sievertSurface, 100, 100);
+        geometry.center();
+
+        material = new THREE.MeshNormalMaterial({side: 2, wireframe: false})
+        mesh = new THREE.Mesh(geometry, material);
+
+        clock = new THREE.Clock();
+        deltaTime = 0;
+        totalTime = 0;
+
+        arToolkitSource = new THREEx.ArToolkitSource({
+            sourceType : 'webcam',
+        });
+
+        arToolkitSource.init(function onReady(){
+            onResize()
+        });
+
+        // handle resize event
+        window.addEventListener('resize', function(){
+            onResize()
+        });
+
+
+        arToolkitContext = new THREEx.ArToolkitContext({
+            cameraParametersUrl: 'camera.dat',
+            detectionMode: 'mono'
+        });
+
+        arToolkitContext.init( function onCompleted(){
+            camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
+        });
+
+        markerRoot1 = new THREE.Group();
+        scene.add(markerRoot1);
+
+        let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
+            type: 'pattern',
+            patternUrl: "pattern-dratuti.patt",
+        })
+
+        markerRoot1.add(mesh);
+
+    }
+
+    function sievertSurface(u_, v_, target) {
+        const a = 1;
+        const w = 60;
+        const u = -Math.PI / 2 + u_ * (Math.PI / (100 - a * 2));
+        const v = 0.105 + v_ * 1;
+        const k = 0.5;
+        const p = -u / Math.sqrt(k + 1) + Math.atan(Math.tan(2 * Math.PI * u) * Math.sqrt(k + 1));
+        const l = 2 / (k + 1 - k * Math.sin(2 * Math.PI * v) * Math.sin(2 * Math.PI * v) * Math.cos(2 * Math.PI * u) * Math.cos(2 * Math.PI * u));
+        const r = (l * Math.sqrt((k + 1) * (1 + k * Math.sin(2 * Math.PI * u) * Math.sin(2 * Math.PI * u))) * Math.sin(2 * Math.PI * v)) / Math.sqrt(k);
+        
+        const x = r * Math.cos(2 * Math.PI * p);
+        const y = r * Math.sin(2 * Math.PI * p);
+        const z = (Math.log(Math.tan(2 * Math.PI * v / 2)) + l * (k + 1) * Math.cos(2 * Math.PI * v)) / Math.sqrt(k);
+        target.set(x * w, z * w, y * w);
+    }    
+
+    function animate() {
+        requestAnimationFrame(animate);
+        totalTime += deltaTime;
+        update();
+        render();
+
+    }
+
+    function update()
+    {
+        if ( arToolkitSource.ready !== false )
+            arToolkitContext.update( arToolkitSource.domElement );
+    }
+
+
+    function onResize()
+    {
+        arToolkitSource.onResize()
+        arToolkitSource.copySizeTo(renderer.domElement)
+        if ( arToolkitContext.arController !== null )
+        {
+            arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)
+        }
+    }
+
+    function render()
+    {
+        renderer.render( scene, camera );
+    }
+
+</script>
+</body>
+</html>
