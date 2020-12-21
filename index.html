@@ -24,19 +24,23 @@
     }
 
     function init() {
-        renderer = new THREE.WebGLRenderer({alpha: 1, antialias: true, clearColor: 0xffffff});
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        render = new THREE.WebGLRenderer({alpha: 1, antialias: true, clearColor: 0xffffff});
+        render.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(render.domElement);
         scene = new THREE.Scene();
-
+        
         camera = new THREE.PerspectiveCamera(120, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.set(0, 0, 2);
-
+        controls = new THREE.TrackballControls(camera, render.domElement);
+        
         geometry = new THREE.ParametricGeometry(sievertSurface, 100, 100);
-        geometry.center();
-
-        material = new THREE.MeshNormalMaterial({side: 2, wireframe: false})
-        mesh = new THREE.Mesh(geometry, material);
+        
+        materialFilled = new THREE.MeshNormalMaterial({side: 2, wireframe: false});
+        
+        meshFilled = new THREE.Mesh(geometry, materialFilled)
+	    
+	meshFilled.scale.x = meshFilled.scale.y = meshFilled.scale.z = 0.8;
+        
 	mesh.rotation.z = Math.PI;
 
         clock = new THREE.Clock();
