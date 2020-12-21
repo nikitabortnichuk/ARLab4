@@ -37,8 +37,8 @@
 
         material = new THREE.MeshNormalMaterial({side: 2, wireframe: false})
         mesh = new THREE.Mesh(geometry, material);
-	    mesh.scale.x = mesh.scale.y = mesh.scale.z = 0.1
-	    mesh.rotation.x = Math.PI / 2;
+	mesh.scale.x = mesh.scale.y = mesh.scale.z = 0.1
+	mesh.rotation.y = Math.PI;
 
         clock = new THREE.Clock();
         deltaTime = 0;
@@ -90,8 +90,8 @@
         const r = (l * Math.sqrt((k + 1) * (1 + k * Math.sin(2 * Math.PI * u) * Math.sin(2 * Math.PI * u))) * Math.sin(2 * Math.PI * v)) / Math.sqrt(k);
         
         target.x = r * Math.cos(2 * Math.PI * p);
-        target.y = r * Math.sin(2 * Math.PI * p);
-        target.z = (Math.log(Math.tan(2 * Math.PI * v / 2)) + l * (k + 1) * Math.cos(2 * Math.PI * v)) / Math.sqrt(k);
+        target.z = r * Math.sin(2 * Math.PI * p);
+        target.y = (Math.log(Math.tan(2 * Math.PI * v / 2)) + l * (k + 1) * Math.cos(2 * Math.PI * v)) / Math.sqrt(k);
         return target;
     }    
 
