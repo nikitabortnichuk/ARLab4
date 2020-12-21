@@ -37,6 +37,8 @@
 
         material = new THREE.MeshNormalMaterial({side: 2, wireframe: false})
         mesh = new THREE.Mesh(geometry, material);
+	mesh.scale.x = mesh.scale.y = mesh.scale.z = 0.1
+	mesh.rotation.x = Math.PI / 2;
 
         clock = new THREE.Clock();
         deltaTime = 0;
@@ -70,7 +72,7 @@
 
         let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
             type: 'pattern',
-            patternUrl: "pattern-dratuti.patt",
+            patternUrl: "pattern-tak.patt",
         })
 
         markerRoot1.add(mesh);
