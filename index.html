@@ -40,7 +40,7 @@
 	    
 	meshFilled.scale.x = meshFilled.scale.y = meshFilled.scale.z = 0.8;
         
-	mesh.rotation.z = Math.PI;
+	meshFilled.rotation.z = Math.PI;
 
         clock = new THREE.Clock();
         deltaTime = 0;
@@ -77,7 +77,7 @@
             patternUrl: "pattern.patt",
         })
 
-        markerRoot1.add(mesh);
+        markerRoot1.add(meshFilled);
 
     }
 
