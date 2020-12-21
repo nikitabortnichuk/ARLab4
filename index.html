@@ -19,11 +19,11 @@
     start();
 
     function start() {
-        init(index);
+        init();
         animate();
     }
 
-    function init(index) {
+    function init() {
         renderer = new THREE.WebGLRenderer({alpha: 1, antialias: true, clearColor: 0xffffff});
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
