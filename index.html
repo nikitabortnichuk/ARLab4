@@ -41,6 +41,7 @@
 	meshFilled.scale.x = meshFilled.scale.y = meshFilled.scale.z = 0.5;
         
 	meshFilled.rotation.x = Math.PI;
+	meshFilled.rotation.y = Math.PI;
 
         clock = new THREE.Clock();
         deltaTime = 0;
@@ -92,8 +93,8 @@
         const r = (l * Math.sqrt((k + 1) * (1 + k * Math.sin(2 * Math.PI * u) * Math.sin(2 * Math.PI * u))) * Math.sin(2 * Math.PI * v)) / Math.sqrt(k);
         
         target.x = r * Math.cos(2 * Math.PI * p);
-        target.z = r * Math.sin(2 * Math.PI * p);
-        target.y = (Math.log(Math.tan(2 * Math.PI * v / 2)) + l * (k + 1) * Math.cos(2 * Math.PI * v)) / Math.sqrt(k);
+        target.y = r * Math.sin(2 * Math.PI * p);
+        target.z = (Math.log(Math.tan(2 * Math.PI * v / 2)) + l * (k + 1) * Math.cos(2 * Math.PI * v)) / Math.sqrt(k);
         return target;
     }    
 
